@@ -78,7 +78,7 @@
 
                 <form action="index.php" method="POST">
 
-                    <h3>Archive</h3>
+                    <h3>Archive(s)</h3>
                     <ul id="completed-tasks">
                             <?php 
                                 $envoi = $db->query('SELECT * FROM tasks WHERE archive="true"'); // appel des données de la table tasks qui ont 'true' comme valeur
