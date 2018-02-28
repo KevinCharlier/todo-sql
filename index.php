@@ -84,7 +84,7 @@
                                 $envoi = $db->query('SELECT * FROM tasks WHERE archive="true"'); // appel des données de la table tasks qui ont 'true' comme valeur
                                 while ($data = $envoi->fetch())
                                 {
-                                    echo "<li><input onclick='ShowHideDiv(this)' type='checkbox' name='removetask[]' value='".($data['task'])."'checked/>
+                                    echo "<li><input type='checkbox' name='removetask[]' value='".($data['task'])."'checked/>
                                         <label for='choice'>".($data['task'])."</label></li><br />"; 
                                 } 
                             ?>
