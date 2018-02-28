@@ -12,7 +12,7 @@
 
     // bouton ajouter
     if (isset($_POST['submit']) AND end($receipt)['taskname'] != $_POST['newtask'] ){ 
-        $add_task = $_POST['newtask']; //Récupération de la valeur
+        $add_task = filter_var($_POST['newtask'], FILTER_SANITIZE_STRING); //Récupération de la valeur
         $array_task = array("taskname" => $add_task, "Terminer" => false);
         $receipt[] = $array_task;
         $dbadd = "INSERT INTO tasks (task, archive) VALUES ('".$add_task."', 'false')"; // Ajout de la tache (valeur = false) sur la db \\
@@ -21,7 +21,7 @@
 
     // bouton enregistrer
     if (isset($_POST['save'])){
-        $choice=$_POST['newtask'];
+        $choice = filter_var($_POST['newtask'], FILTER_SANITIZE_STRING);
             foreach ($choice as $key){
                 $dbup = "UPDATE tasks SET archive = 'true' WHERE task='".$key."'"; // Remplace 'false' par 'true' \\
                 $envoi = $db->exec($dbup);
@@ -30,7 +30,7 @@
 
     // bouton retirer
     if (isset($_POST['unsave'])){
-        $choice=$_POST['removetask'];
+        $choice = filter_var($_POST['removetask'], FILTER_SANITIZE_STRING);
             foreach ($choice as $key){
                 $dbup = "UPDATE tasks SET archive = 'false' WHERE task='".$key."'"; // Remplace 'true' par 'false' \\
                 $envoi = $db->exec($dbup);
