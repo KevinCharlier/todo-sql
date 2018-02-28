@@ -101,7 +101,7 @@
                         <h3>Ajouter une nouvelle tache</h3>
                     </p>
                     <p>
-                        <textarea name="newtask" placeholder="(ajouter ta tâche ici)" class="expanding" autofocus></textarea>
+                        <textarea name="newtask" placeholder="(Ajouter votre tâche ici)" class="expanding" autofocus></textarea>
                     </p>
                     <p>
                         <button type="submit" name="submit">Ajouter</button>
