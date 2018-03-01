@@ -9,31 +9,28 @@
         // Si erreur
         die('Erreur : '.$error->getMessage());
     }
-
     // bouton ajouter
     if (isset($_POST['submit']) AND end($receipt)['taskname'] != $_POST['newtask'] ){ 
-        $add_task = filter_var($_POST['newtask'], FILTER_SANITIZE_STRING); //Récupération de la valeur
+        $add_task = $_POST['newtask']; //Récupération de la valeur
         $array_task = array("taskname" => $add_task, "Terminer" => false);
         $receipt[] = $array_task;
         $dbadd = "INSERT INTO tasks (task, archive) VALUES ('".$add_task."', 'false')"; // Ajout de la tache (valeur = false) sur la db \\
-        $envoi = $db->exec($dbadd); // requête envoyée à la db \\
+        $result = $db->exec($dbadd); // requête envoyée à la db \\
     }
-
     // bouton enregistrer
     if (isset($_POST['save'])){
-        $choice = filter_var($_POST['newtask'], FILTER_SANITIZE_STRING);
+        $choice=$_POST['newtask'];
             foreach ($choice as $key){
                 $dbup = "UPDATE tasks SET archive = 'true' WHERE task='".$key."'"; // Remplace 'false' par 'true' \\
-                $envoi = $db->exec($dbup);
+                $result = $db->exec($dbup);
             }
     }
-
     // bouton retirer
     if (isset($_POST['unsave'])){
-        $choice = filter_var($_POST['removetask'], FILTER_SANITIZE_STRING);
+        $choice=$_POST['removetask'];
             foreach ($choice as $key){
-                $dbup = "UPDATE tasks SET archive = 'false' WHERE task='".$key."'"; // Remplace 'true' par 'false' \\
-                $envoi = $db->exec($dbup);
+                $dbup = "DELETE FROM tasks WHERE archive = 'true'"; // Suppression des archives dans la db
+                $result = $db->exec($dbup);
             }
     }   
     
@@ -62,27 +59,27 @@
 
                     <h3>A faire</h3>
                     <ul id="incomplete-tasks">
-                            <?php 
-                                $envoi = $db->query('SELECT * FROM tasks WHERE archive="false"'); // appel des données de la table tasks qui ont 'false' comme valeur
-                                while ($data = $envoi->fetch())
+                        <?php 
+                                $result = $db->query('SELECT * FROM tasks WHERE archive="false"'); // appel des données de la table tasks qui ont 'false' comme valeur
+                                while ($data = $result->fetch())
                                 {
                                     echo "<li><input onclick='ShowHideDiv(this)' type='checkbox' name='newtask[]' value='".($data['task'])."'/>
                                         <label for='choice'>".($data['task'])."</label></li><br />"; 
                                 } 
                             ?>
                     </ul>
-                        <div id="dvTask" style="display: none">
-                            <button class="save" name="save" type="submit">Enregistrer</button>
-                        </div>
+                    <div id="dvTask" style="display: none">
+                        <button class="save" name="save" type="submit">Enregistrer</button>
+                    </div>
                 </form>
 
                 <form action="index.php" method="POST">
 
                     <h3>Archive(s)</h3>
                     <ul id="completed-tasks">
-                            <?php 
-                                $envoi = $db->query('SELECT * FROM tasks WHERE archive="true"'); // appel des données de la table tasks qui ont 'true' comme valeur
-                                while ($data = $envoi->fetch())
+                        <?php 
+                                $result = $db->query('SELECT * FROM tasks WHERE archive="true"'); // appel des données de la table tasks qui ont 'true' comme valeur
+                                while ($data = $result->fetch())
                                 {
                                     echo "<li><input type='checkbox' name='removetask[]' value='".($data['task'])."'checked/>
                                         <label for='choice'>".($data['task'])."</label></li><br />"; 
