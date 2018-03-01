@@ -11,8 +11,8 @@
     }
     // bouton ajouter
     if (isset($_POST['submit']) AND end($receipt)['taskname'] != $_POST['newtask'] ){ 
-        $add_task = $_POST['newtask']; //Récupération de la valeur
-        $array_task = array("taskname" => $add_task, "Terminer" => false);
+        $add_task = filter_var($_POST['newtask'], FILTER_SANITIZE_STRING); //Récupération de la valeur
+        $allTasks[] = ["id" => count($allTasks) + 1 , "taskname" => $$add_task, "Terminer" => false ];
         $receipt[] = $array_task;
         $dbadd = "INSERT INTO tasks (task, archive) VALUES ('".$add_task."', 'false')"; // Ajout de la tache (valeur = false) sur la db \\
         $result = $db->exec($dbadd); // requête envoyée à la db \\
@@ -29,8 +29,8 @@
     if (isset($_POST['unsave'])){
         $choice=$_POST['removetask'];
             foreach ($choice as $key){
-                $dbup = "DELETE FROM tasks WHERE archive = 'true'"; // Suppression des archives dans la db
-                $result = $db->exec($dbup);
+                $dbremove = "DELETE FROM tasks WHERE archive = 'true'"; // Suppression des archives dans la db
+                $result = $db->exec($dbremove);
             }
     }   
     
