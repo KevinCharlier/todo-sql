@@ -2,7 +2,7 @@
     try
     {
         // Connexion à MySql
-        $db = new PDO('mysql:host=localhost;dbname=todo;charset=utf8', 'root', 'desperados69'); //mdp : user (sur pc de BeCode) ou desperados69 (chez moi)
+        $db = new PDO('mysql:host=localhost;dbname=todo;charset=utf8', 'root', 'user');
     }
     catch(Exception $error)
     {
